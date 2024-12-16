@@ -9,4 +9,8 @@
   .inputField {
     @apply border border-orange-500 rounded-xl text-black w-full px-2 py-1 text-sm
   }
+
+  .copyIcon {
+    @apply flex justify-center items-center gap-2
+  }
 }

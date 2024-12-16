@@ -1,4 +1,8 @@
 import { useRef, useState, useEffect } from "react";
+import { IoCopyOutline } from "react-icons/io5";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export const Manager = () => {
     const ref = useRef();
@@ -34,9 +38,39 @@ export const Manager = () => {
     const handleChange = (e) => {
         setform({ ...form, [e.target.name]: e.target.value })
     }
+
+    const copyText = (text) => {
+        toast('copied', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: "Bounce",
+        });
+        navigator.clipboard.writeText(text)
+    }
     return (
         <>
             <div className="absolute top-0 -z-10 h-full w-full bg-white"><div className="absolute bottom-auto left-auto right-0 top-0 h-[500px] w-[900px] -translate-x-[30%] translate-y-[20%] rounded-full bg-[rgb(255,219,73)] opacity-50 blur-[280px]"></div></div>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={true}
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                transition="Bounce"
+            />
+            {/* Same as */}
+            <ToastContainer />
             <div className="myContainer flex flex-col gap-4 pb-4 mt-2 rounded-lg">
                 <div className="flex flex-col justify-center items-center p-5">
                     <div className="logo text-3xl font-extrabold">
@@ -87,8 +121,8 @@ export const Manager = () => {
                             {passwordArray.map((pass) => {
                                 return <tr key={pass.username} className="bg-white border-b hover:bg-orange-100">
                                     <td className="px-6 py-4 cursor-pointer"><a href={pass.site} target="_blank">{pass.site}</a></td>
-                                    <td className="px-6 py-4">{pass.username}</td>
-                                    <td className="px-6 py-4">{pass.password}</td>
+                                    <td className="px-6 py-4"><span className="copyIcon" onClick={() => copyText(pass.username)}>{pass.username}<IoCopyOutline className="cursor-pointer" /></span></td>
+                                    <td className="px-6 py-4"><span className="copyIcon" onClick={() => copyText(pass.password)}>{pass.password}<IoCopyOutline className="cursor-pointer" /></span></td>
                                     <td className="px-6 pl-0 py-4 text-right">
                                         <a href="#" className="font-medium text-blue-600  hover:underline">Edit</a></td>
                                 </tr>
