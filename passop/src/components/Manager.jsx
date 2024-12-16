@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { IoCopyOutline } from "react-icons/io5";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { v4 as uuidv4 } from 'uuid';
 
 
 export const Manager = () => {
@@ -29,10 +30,23 @@ export const Manager = () => {
     }
 
     const savePassword = () => {
-        setpasswordArray([...passwordArray, form])
+        setpasswordArray([...passwordArray, { ...form, id: uuidv4() }])
         localStorage.setItem("passwords", JSON.stringify([...passwordArray, form]))
-        console.log([...passwordArray, form])
+        setform({ site: '', username: '', password: '' })
         alert("passware saved");
+    }
+
+    const deletePassword = (id) => {
+        let c = confirm("Are you sure?")
+        if (c) {
+            setpasswordArray(passwordArray.filter(item => item.id !== id))
+            localStorage.setItem("passwords", JSON.stringify(passwordArray.filter(item => item.id !== id)))
+        }
+    }
+
+    const editPassword = (id) => {
+        setform(passwordArray.filter(item => item.id === id)[0])
+        setpasswordArray(passwordArray.filter(item => item.id !== id))
     }
 
     const handleChange = (e) => {
@@ -96,9 +110,9 @@ export const Manager = () => {
                             src="https://cdn.lordicon.com/sbnjyzil.json"
                             trigger="hover"
                             colors="primary:#121331,secondary:#000000"
-                            className="size-44">
+                            className="size-10">
                         </lord-icon>
-                        Add Password
+                        <span>Save Password</span>
                     </span>
                 </button>
             </div>
@@ -112,19 +126,39 @@ export const Manager = () => {
                                 <th scope="col" className="px-6 py-3">Website</th>
                                 <th scope="col" className="px-6 py-3">username</th>
                                 <th scope="col" className="px-6 py-3">password</th>
-                                <th scope="col" className="px-6 pl-0 py-3">
-                                    <span className="sr-only">Edit</span>
-                                </th>
+                                <th scope="col" className="px-6 py-3">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {passwordArray.map((pass) => {
-                                return <tr key={pass.username} className="bg-white border-b hover:bg-orange-100">
+                                return <tr key={pass.id} className="bg-white border-b hover:bg-orange-100">
                                     <td className="px-6 py-4 cursor-pointer"><a href={pass.site} target="_blank">{pass.site}</a></td>
                                     <td className="px-6 py-4"><span className="copyIcon" onClick={() => copyText(pass.username)}>{pass.username}<IoCopyOutline className="cursor-pointer" /></span></td>
                                     <td className="px-6 py-4"><span className="copyIcon" onClick={() => copyText(pass.password)}>{pass.password}<IoCopyOutline className="cursor-pointer" /></span></td>
-                                    <td className="px-6 pl-0 py-4 text-right">
-                                        <a href="#" className="font-medium text-blue-600  hover:underline">Edit</a></td>
+                                    <td className="px-6 pl-0 py-4 flex justify-center items-center gap-2">
+                                        <span className="edit" onClick={() => editPassword(pass.id)}>
+                                            <lord-icon
+                                                src="https://cdn.lordicon.com/fikcyfpp.json"
+                                                alt="edit"
+                                                trigger="hover"
+                                                stroke="bold"
+                                                colors="primary:#e86830,secondary:#e86830"
+                                                style={{ "width": "20px", "height": "20px" }}
+                                            >
+                                            </lord-icon>
+                                        </span>
+                                        <span className="delete" onClick={() => deletePassword(pass.id)}>
+                                            <lord-icon
+                                                src="https://cdn.lordicon.com/hwjcdycb.json"
+                                                alt="edit"
+                                                trigger="hover"
+                                                stroke="bold"
+                                                colors="primary:#e86830,secondary:#e86830"
+                                                style={{ "width": "20px", "height": "20px" }}
+                                            >
+                                            </lord-icon>
+                                        </span>
+                                    </td>
                                 </tr>
                             })}
                         </tbody>

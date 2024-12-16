@@ -15,9 +15,9 @@ export const Navbar = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-orange-300">
-                <span className="flex gap-2 justify-center items-center border px-2 py-1 rounded-full pl-1 hover:border-orange-300 hover:animate-pulse ">
+                <span className="flex gap-2 justify-center items-center border px-2 py-1 rounded-full md:pl-1 hover:border-orange-300 hover:animate-pulse ">
                     <FaGithub size={28} />
-                    <p>Source Code</p>
+                    <p className="hidden md:block">Source Code</p>
                 </span>
             </a>
         </nav>
