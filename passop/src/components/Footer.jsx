@@ -5,7 +5,7 @@ export const Footer = () => {
             <a href="/">
                 <div className="logo text-xl font-bold">
                     &lt;
-                    <span className="text-orange-500">Pass</span><span>OP/</span>
+                    <span className="text-orange-500 font-serif">Pass</span><span className="font-mono">Manager/</span>
                     &gt;
                 </div>
             </a>

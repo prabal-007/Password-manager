@@ -68,7 +68,7 @@ export const Manager = () => {
         navigator.clipboard.writeText(text)
     }
     return (
-        <>
+        <div className="h-[82.3vh]">
             <div className="absolute top-0 -z-10 h-full w-full bg-white"><div className="absolute bottom-auto left-auto right-0 top-0 h-[500px] w-[900px] -translate-x-[30%] translate-y-[20%] rounded-full bg-[rgb(255,219,73)] opacity-50 blur-[280px]"></div></div>
             <ToastContainer
                 position="top-right"
@@ -85,14 +85,14 @@ export const Manager = () => {
             />
             {/* Same as */}
             <ToastContainer />
-            <div className="myContainer flex flex-col gap-4 pb-4 mt-2 rounded-lg">
+            <div className="myContainer w-auto md:w-[60vw] flex flex-col gap-4 pb-4 pt-2 mt-2 rounded-lg">
                 <div className="flex flex-col justify-center items-center p-5">
                     <div className="logo text-3xl font-extrabold">
                         &lt;
-                        <span className="text-orange-500">Pass</span><span>OP/</span>
+                        <span className="text-orange-500 font-serif">Pass</span><span className="font-mono">Manager/</span>
                         &gt;
                     </div>
-                    <p className="font-bold">Your onw password manager.</p>
+                    <p className="font-semibold text-slate-800 text-xs text-center">Your Personal Password Manager</p>
                 </div>
                 <input name="site" value={form.site} onChange={handleChange} type="text" placeholder="Enter website URL" className="inputField" />
                 <div className="flex gap-5">
@@ -116,26 +116,26 @@ export const Manager = () => {
                     </span>
                 </button>
             </div>
-            <div className="myContainer w-[70vw]">
+            <div className="myContainer w-full p-4 md:w-[70vw]">
                 <h1 className="font-bold text-xl p-5 pt-0">Saved Passwords</h1>
                 {passwordArray.length === 0 && <div className="text-center border-2 rounded-2xl bg-white p-5 py-10">No Passwords to show</div>}
                 {passwordArray.length != 0 && <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <table className="w-full text-sm text-gray-500 text-center">
                         <thead className="text-xs text-gray-700 uppercase bg-orange-300">
                             <tr>
-                                <th scope="col" className="px-6 py-3">Website</th>
-                                <th scope="col" className="px-6 py-3">username</th>
-                                <th scope="col" className="px-6 py-3">password</th>
-                                <th scope="col" className="px-6 py-3">Action</th>
+                                <th scope="col" className="px-2 md:px-6 py-3">Website</th>
+                                <th scope="col" className="px-2 md:px-6 py-3">username</th>
+                                <th scope="col" className="px-2 md:px-6 py-3">password</th>
+                                <th scope="col" className="px-2 md:px-6 py-3">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {passwordArray.map((pass) => {
                                 return <tr key={pass.id} className="bg-white border-b hover:bg-orange-100">
-                                    <td className="px-6 py-4 cursor-pointer"><a href={pass.site} target="_blank">{pass.site}</a></td>
-                                    <td className="px-6 py-4"><span className="copyIcon" onClick={() => copyText(pass.username)}>{pass.username}<IoCopyOutline className="cursor-pointer" /></span></td>
-                                    <td className="px-6 py-4"><span className="copyIcon" onClick={() => copyText(pass.password)}>{pass.password}<IoCopyOutline className="cursor-pointer" /></span></td>
-                                    <td className="px-6 pl-0 py-4 flex justify-center items-center gap-2">
+                                    <td className="px-2 md:px-6 py-4 cursor-pointer"><a href={pass.site} target="_blank">{pass.site}</a></td>
+                                    <td className="px-2 md:px-6 py-4"><span className="copyIcon" onClick={() => copyText(pass.username)}>{pass.username}<IoCopyOutline className="cursor-pointer" /></span></td>
+                                    <td className="px-2 md:px-6 py-4"><span className="copyIcon" onClick={() => copyText(pass.password)}>{pass.password}<IoCopyOutline className="cursor-pointer" /></span></td>
+                                    <td className="px-2 md:px-6 pl-0 py-4 flex justify-center items-center gap-2">
                                         <span className="edit" onClick={() => editPassword(pass.id)}>
                                             <lord-icon
                                                 src="https://cdn.lordicon.com/fikcyfpp.json"
@@ -166,6 +166,6 @@ export const Manager = () => {
                 </div>}
 
             </div>
-        </>
+        </div>
     )
 }
