@@ -68,7 +68,7 @@ export const Manager = () => {
         navigator.clipboard.writeText(text)
     }
     return (
-        <div className="h-[82.3vh]">
+        <div className="min-h-[82.3vh]">
             <div className="absolute top-0 -z-10 h-full w-full bg-white"><div className="absolute bottom-auto left-auto right-0 top-0 h-[500px] w-[900px] -translate-x-[30%] translate-y-[20%] rounded-full bg-[rgb(255,219,73)] opacity-50 blur-[280px]"></div></div>
             <ToastContainer
                 position="top-right"
