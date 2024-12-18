@@ -11,11 +11,15 @@ export const Manager = () => {
     const [form, setform] = useState({ site: '', username: '', password: '' })
     const [passwordArray, setpasswordArray] = useState([])
 
+    const getPasswords = async () => {
+        let req = await fetch("http://localhost:3000/")
+        let passwords = await req.json()
+        console.log(passwords)
+        setpasswordArray(passwords)
+    }
+
     useEffect(() => {
-        let passwords = localStorage.getItem('passwords');
-        if (passwords) {
-            setpasswordArray(JSON.parse(passwords))
-        }
+        getPasswords()
     }, [])
 
 
@@ -29,10 +33,14 @@ export const Manager = () => {
         }
     }
 
-    const savePassword = () => {
+    const savePassword = async () => {
         if (form.site.length > 3 && form.username.length > 3 && form.password.length > 3) {
+
+            await fetch("http://localhost:3000/", { method: "DELETE", headers: { "content-type": "application/json" }, body: JSON.stringify({ id: form.id }) })
             setpasswordArray([...passwordArray, { ...form, id: uuidv4() }])
-            localStorage.setItem("passwords", JSON.stringify([...passwordArray, form]))
+            // localStorage.setItem("passwords", JSON.stringify([...passwordArray, form]))
+            let res = await fetch("http://localhost:3000/", { method: "POST", headers: { "Content-type": "application/json" }, body: JSON.stringify({ ...form, id: uuidv4() }) })
+
             setform({ site: '', username: '', password: '' })
             toast("password saved");
         } else {
@@ -40,17 +48,18 @@ export const Manager = () => {
         }
     }
 
-    const deletePassword = (id) => {
+    const deletePassword = async (id) => {
         let c = confirm("Are you sure?")
         if (c) {
             setpasswordArray(passwordArray.filter(item => item.id !== id))
-            localStorage.setItem("passwords", JSON.stringify(passwordArray.filter(item => item.id !== id)))
+            // localStorage.setItem("passwords", JSON.stringify(passwordArray.filter(item => item.id !== id)))
+            let res = await fetch("http://localhost:3000/", { method: "DELETE", headers: { "Content-type": "application/json" }, body: JSON.stringify({ id }) })
             toast("password deleted!")
         }
     }
 
     const editPassword = (id) => {
-        setform(passwordArray.filter(item => item.id === id)[0])
+        setform({ ...passwordArray.filter(item => item.id === id)[0], id: id })
         setpasswordArray(passwordArray.filter(item => item.id !== id))
     }
 
@@ -140,7 +149,7 @@ export const Manager = () => {
                                 return <tr key={pass.id} className="bg-white border-b hover:bg-orange-100">
                                     <td className="px-2 md:px-6 py-4 cursor-pointer"><a href={pass.site} target="_blank">{pass.site}</a></td>
                                     <td className="px-2 md:px-6 py-4"><span className="copyIcon" onClick={() => copyText(pass.username)}>{pass.username}<IoCopyOutline className="cursor-pointer" /></span></td>
-                                    <td className="px-2 md:px-6 py-4"><span className="copyIcon" onClick={() => copyText(pass.password)}>{pass.password}<IoCopyOutline className="cursor-pointer" /></span></td>
+                                    <td className="px-2 md:px-6 py-4"><span className="copyIcon" onClick={() => copyText(pass.password)}>{"*".repeat(pass.password.length)}<IoCopyOutline className="cursor-pointer" /></span></td>
                                     <td className="px-2 md:px-6 pl-0 py-4 flex justify-center items-center gap-2">
                                         <span className="edit" onClick={() => editPassword(pass.id)}>
                                             <lord-icon
