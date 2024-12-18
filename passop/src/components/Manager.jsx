@@ -30,10 +30,14 @@ export const Manager = () => {
     }
 
     const savePassword = () => {
-        setpasswordArray([...passwordArray, { ...form, id: uuidv4() }])
-        localStorage.setItem("passwords", JSON.stringify([...passwordArray, form]))
-        setform({ site: '', username: '', password: '' })
-        alert("passware saved");
+        if (form.site.length > 3 && form.username.length > 3 && form.password.length > 3) {
+            setpasswordArray([...passwordArray, { ...form, id: uuidv4() }])
+            localStorage.setItem("passwords", JSON.stringify([...passwordArray, form]))
+            setform({ site: '', username: '', password: '' })
+            toast("password saved");
+        } else {
+            toast("Error : fill all fields");
+        }
     }
 
     const deletePassword = (id) => {
@@ -41,6 +45,7 @@ export const Manager = () => {
         if (c) {
             setpasswordArray(passwordArray.filter(item => item.id !== id))
             localStorage.setItem("passwords", JSON.stringify(passwordArray.filter(item => item.id !== id)))
+            toast("password deleted!")
         }
     }
 
@@ -68,7 +73,7 @@ export const Manager = () => {
         navigator.clipboard.writeText(text)
     }
     return (
-        <div className="min-h-[82.3vh]">
+        <div className="min-h-[82.2vh]">
             <div className="absolute top-0 -z-10 h-full w-full bg-white"><div className="absolute bottom-auto left-auto right-0 top-0 h-[500px] w-[900px] -translate-x-[30%] translate-y-[20%] rounded-full bg-[rgb(255,219,73)] opacity-50 blur-[280px]"></div></div>
             <ToastContainer
                 position="top-right"
@@ -104,6 +109,7 @@ export const Manager = () => {
                         </span>
                     </div>
                 </div>
+                <label htmlFor="" className="text-xs font-mono text-gray-600">*All fields required with minimum length 3!</label>
                 <button onClick={savePassword} className="inputField self-center w-fit bg-orange-500 text-white font-bold hover:bg-orange-600 hover:font-semibold">
                     <span className="flex gsp-2 items-center justify-center">
                         <lord-icon
